@@ -1,0 +1,218 @@
+
+\section{Gaussian Elimination}
+\label{sec:gaussian}
+
+% I might want to define "numerical stability" somewhere before this paragraph. It is a big
+% topic and it might even deserve its own section.
+
+Although this document is not intended to cover issues related to numerical computation, there
+is one numerical method that is so important that it does deserve coverage: Gaussian
+Elimination. This method can be used to solve a system of linear equations in a reasonably
+effective manner. Although it requires a running time of $O(n^3)$ it is considerably more
+efficient than some other techniques (such as Kramer's Rule using determinants). In addition
+Gaussian Elimination has good numerical properties and works well on dense systems\footnote{A
+  \newterm{dense} system of equations is one in which a large percentage of the coefficients are
+  not zero.}.
+
+In principle Gaussian Elimination is very simple to understand. Three basic row operations are
+defined.
+\begin{enumerate}
+\item Exchange two rows, $R_i \leftrightarrow R_j$
+\item Multiple a row by a scalar, $R_i \leftarrow a R_i$
+\item Replace a row with the sum of that row and another scaled row, $R_j \leftarrow R_j + a R_i$
+\end{enumerate}
+
+In each case it is necessary to also apply the operations to the corresponding elements of the
+driving vector. It is easy to see that these operations are justified based on concepts from
+elementary algebra. For example exchanging two rows is equivalent to writing down the equations
+in a different order; this does not change the solution of the system. Furthermore, multiplying a
+row by a scalar is equivalent to multiplying an equation by a scalar, and so forth.
+
+The easiest way to explain how Gaussian Elimination works is to show an example. Consider the
+following 3x3 system of equations.
+\begin{displaymath}
+\begin{array}{rcrcrcr}
+ 1.23\, x_1 & - & 4.53\, x_2 & + & 2.83\, x_3 & = &  6.77  \\
+ 8.33\, x_1 & + & 1.93\, x_2 & + & 3.28\, x_3 & = & -2.33 \\
+-3.48\, x_1 & + & 7.12\, x_2 & - & 1.20\, x_3 & = &  6.12
+\end{array}
+\end{displaymath}
+We can write this system in matrix form as follows
+\begin{displaymath}
+\left[
+\begin{array}{rrr}
+  1.23 & -4.53 &  2.83 \\
+  8.33 &  1.93 &  3.28 \\
+ -3.48 &  7.12 & -1.20 
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+  6.77 \\
+ -2.33 \\
+  6.12
+\end{array}
+\right]
+\end{displaymath}
+
+The first phase of the computation is the \newterm{elimination} phase. It entails using the
+three row operations listed above to change the matrix of coefficients into a upper triangular
+matrix. In other words, a matrix in which all the elements below the main diagonal are zero. The
+computation proceeds by considering each diagonal element one at a time. Starting with $a_{11}$
+we start be scanning down the column below and including the diagonal element looking for the
+element with the largest absolute value. In this case row two holds that element ($a_{21} =
+8.33$). We thus do $R_1 \leftrightarrow R_2$ to exchange those rows.
+\begin{displaymath}
+\left[
+\begin{array}{rrr}
+  8.33 &  1.93 &  3.28 \\
+  1.23 & -4.53 &  2.83 \\
+ -3.48 &  7.12 & -1.20 
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+ -2.33 \\
+  6.77 \\
+  6.12
+\end{array}
+\right]
+\end{displaymath}
+
+% Do I want to include a proof of the statement below about accuracy?
+
+This step is not strictly necessary but it turns out to improve the accuracy of the computation.
+Notice that the elements in the driving vector are exchanged as well. This is necessary, of
+course, because those elements are part of the equations being exchanged.
+
+Next using $a_{11}$ we do row operations to zero out the coefficients below it in the same
+column. Specifically we do $-(1.23/8.33)R_1 + R_2 \rightarrow R_2$ and $(3.48/8.33)R_1 + R_3
+\rightarrow R_3$. The result is
+\begin{displaymath}
+\left[
+\begin{array}{rrr}
+ 8.33 &  1.93 & 3.28 \\
+ 0.00 & -4.82 & 2.35 \\
+ 0.00 &  7.93 & 0.17 
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+ -2.33 \\
+  7.11 \\
+  5.15
+\end{array}
+\right]
+\end{displaymath}
+
+Moving on to $a_{22}$ we again search the column beneath and including that element looking for
+the element with the largest absolute value. In this case that element is $a_{32} = 7.93$. We
+thus do $R_2 \leftrightarrow R_3$ to exchange those rows.
+\begin{displaymath}
+\left[
+\begin{array}{rrr}
+ 8.33 &  1.93 & 3.28 \\
+ 0.00 &  7.93 & 0.17 \\
+ 0.00 & -4.82 & 2.35
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+ -2.33 \\
+  5.15 \\
+  7.11
+\end{array}
+\right]
+\end{displaymath}
+
+Finally we zero out the coefficients below the (new) $a_{22}$ by doing $(4.82/7.93)R_2 + R_3
+\rightarrow R_3$.
+\begin{displaymath}
+\left[
+\begin{array}{rrr}
+ 8.33 & 1.93 & 3.28 \\
+ 0.00 & 7.93 & 0.17 \\
+ 0.00 & 0.00 & 2.45
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+x_1 \\
+x_2 \\
+x_3
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+ -2.33 \\
+  5.15 \\
+ 10.24
+\end{array}
+\right]
+\end{displaymath}
+
+This completes the elimination phase. The next phase is called \newterm{back substitution}. We
+start by observing that the last row represents the equation $2.45\,x_3 = 10.24$. From this
+equation we can immediately calculate $x_3 = 10.24/2.45 = 4.18$. Notice also that the second to
+last row can be written as $7.93\,x_2 + 0.17\,x_3 = 5.15$. Of course this equation can be
+written as $x_2 = (5.15 - 0.17\,x_3)/7.93$. Given that $x_3$ has just been calculated we can now
+compute $x_2 = 0.56$. Similarly $x_1 = (-2.33 - 1.93\,x_2 - 3.28\,x_3)/8.33 = -2.06$.
+
+The back substitution phase can store the computed results in the space used for the driving
+vector. After each value is computed the corresponding driving vector slot is no longer needed
+and can be used for storing the final result.
+
+If you substitute the values for $(x_1, x_2, x_3)$ computed above back into the original system
+you will find that they \emph{almost} work. The error you observe is due to the imprecise nature
+of the computations done. In this example only two or three significant figures are retained in
+each step. As with any numerical computation, errors can potentially accumulate as the
+computation proceeds. In misbehaving situations, the resulting accumulated errors can be so
+great as to swamp out any real results. Because it is such an important algorithm, Gaussian
+Elimination has been extensively studied with respect to its error propagation behavior.
+However, it is outside the scope of this document to discuss that issue any further.
+
+It is important to note that the elimination phase of the computation runs in $O(n^3)$ time,
+where $n$ is the number of equations being solved. This is because each diagonal element must be
+considered and, for each such element an average of $n/2$ rows must be processed and, for each
+row $O(n)$ computations are needed. In contrast, the back substitution phase only requires
+$O(n^2)$ time. This is because $n$ rows must be processed and, for each row an average of
+$O(n/2)$ computations are needed. This means for large systems, the dominate factor limiting the
+performance of the algorithm is the elimination phase.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item \emph{I need something here.}
+
+\end{enumerate}
+
+\subsection*{Octave}

@@ -1,0 +1,288 @@
+
+\section{Simultaneous Equations}
+\label{sec:simul-equations}
+
+One of the most important applications of matrices and linear algebra is in the study of systems
+of simultaneous linear equations.
+
+A system of two linear equations and two unknowns can always be written in the following general
+way.
+\begin{eqnarray*}
+	a_{11}x_1 + a_{12}x_2 & = & b_1 \\
+	a_{21}x_1 + a_{22}x_2 & = & b_2
+\end{eqnarray*}
+
+The unknowns are $x_1$ and $x_2$. In many elementary texts the unknowns are often referred to as
+$x$ and $y$ but that notation is less extensible to the more general case of many unknowns. The
+equations above are called \newterm{linear equations} because each equation taken alone defines
+a straight line on an $x_1$ vs $x_2$ plane. The intersection of those two lines defines a single
+point, $(x_1, x_2)$, that satisfies both equations simultaneously.
+
+One is usually interested in solving the system of equations for the two unknowns given values
+for the coefficents and for $b_1$ and $b_2$. However, before worrying about how to best solve
+such systems, it is useful to make the following observation. Let
+\begin{displaymath}
+x = \left[
+\begin{array}{c}
+  x_1 \\
+  x_2
+\end{array}
+\right]
+\end{displaymath}
+Call $x$ the \newterm{vector of unknowns}. Notice that it is a $2 \times 1$ column vector. Let
+\begin{displaymath}
+b = \left[
+\begin{array}{c}
+  b_1 \\
+  b_2
+\end{array}
+\right]
+\end{displaymath}
+Call $b$ the \newterm{driving vector}. It is also a $2 \times 1$ column vector consisting of the
+constant terms in the system of equations. Finally let
+\begin{displaymath}
+A = \left[
+\begin{array}{cc}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{array}
+\right]
+\end{displaymath}
+Call $A$ the \newterm{matrix of coefficients}. It is a $2 \times 2$ square matrix.
+
+Now the system of equations can be succintly expressed by the matrix equation
+\begin{displaymath}
+Ax = b
+\end{displaymath}
+The expression $Ax$ is the multiplication of a $2 \times 2$ matrix with a $2 \times 1$ column
+vector. By the rules of matrix multiplication this is properly defined. The result will be
+another $2 \times 1$ column vector---exactly the dimensions of $b$. The first element in $b$, in
+row $1$, column $1$, can be found by scanning down row $1$ of $A$ and column $1$ of $x$ and
+forming the sum $a_{11}x_1 + a_{12}x_2$. Thus
+\begin{displaymath}
+b_1 = a_{11}x_1 + a_{12}x_2
+\end{displaymath}
+
+This is, of course, the first equation in the system of equations. The other equation follows
+similarly. Now we can see how the odd definition of matrix multiplication can be useful!
+
+A linear system of three equations and three unknowns can be written
+\begin{eqnarray*}
+a_{11}x_1 + a_{12}x_2 + a_{13}x_3 = b_1 \\
+a_{21}x_1 + a_{22}x_2 + a_{23}x_3 = b_2 \\
+a_{31}x_1 + a_{32}x_2 + a_{33}x_3 = b_3
+\end{eqnarray*}
+
+Each equation in such a system defines a plane in three dimensional space with coordinates
+$x_1$, $x_2$, and $x_3$. Two planes intersect to define a line and the intersection of that line
+with the third plane defines a single point. That point is the solution of the system; it is the
+specific value of $(x_1, x_2, x_3)$ that satisfies all three equations simultaneously. Although
+this system is larger, it can still be expressed with the matrix equation $Ax = b$ with the
+understanding that $A$ is a $3 \times 3$ matrix in this case.
+
+What of very large matrices? Suppose $A$ was a general $n \times n$ matrix. In that case each
+row in $A$ would correspond to a single equation with $n$ unknowns. Such an equation defines a
+$n-1$ dimensional hyperplane in the $n$ dimensional space with coordinates $x_1, x_2, \ldots,
+x_n$. The intersection of two $n-1$ dimensional hyperplanes defines a $n-2$ dimensional
+hyperplane. The intersection of that $n-2$ dimensional hyperplane with another $n-1$ dimensional
+hyperplane results in a $n-3$ dimensional hyperplane. As each equation is used, the dimension of
+the region of intersection decreases by $1$. When all $n$ equations are considered, the region
+of intersection is a zeroth dimensional region---a point. It is the point $(x_1, x_2, \ldots,
+x_n)$ that simultaneously satisfies all the equations. Even if $n$ is very large, the system of
+equations can still be represented by the simple form $Ax = b$.
+
+Solving $Ax = b$ is, in theory very simple. Just ``divide'' both sides by $A$. More precisely
+\begin{eqnarray*}
+  Ax         & = & b       \\
+  A^{-1}(Ax) & = & A^{-1}b \\
+  (A^{-1}A)x & = & A^{-1}b \\
+  Ix         & = & A^{-1}b \\
+  x          & = & A^{-1}b
+\end{eqnarray*}
+In particular, we can pre-multiply both sides of the equation by $A^{-1}$ and then use the
+associativity of matrix multiplication and the special properties of the identity matrix to
+reduce the left hand side of the equation to just $x$. The right side of the equation then
+becomes $A^{-1}b$. Two matrices are equal only if their corresponding elements are all equal.
+Thus the first element of the $x$ column vector, $x_1$, must be equal to the first element in
+the $A^{-1}b$ column vector. This is the solution for the unknown $x_1$. The other unknowns are
+given by the other values in the $A^{-1}b$ column vector.
+
+Thus we have this important result: Solving the system of equations is simply a matter of
+finding the inverse of the matrix of coefficients, if it exists, and then pre-multiplying the
+driving vector by that inverse. Notice that if the driving vector is changed a new solution can
+be found with a simple matrix multiplication. The matrix of coefficients does not need to be
+re-inverted unless one of $A$'s elements changes. This can be significant in some applications.
+As you will see, the driving vector is usually an expression of signals applied to a system
+while the matrix of coefficients is usually related to the structure of a system. Computing what
+a system does with different inputs is usually a matter of solving the equations with a new
+driving vector. Once the coefficients are inverted this is a simple matter.
+
+You know from Section \ref{sec:matrix-inverses} that not all matrices have inverses. What is the
+significance of the case when the matrix of coefficients is singular? In that situation the
+system of equations has no solution. However, the physical interpretation of this case is quite
+interesting and worth looking at more closely. Consider the following system
+\begin{displaymath}
+\left[
+\begin{array}{cc}
+ 1 & 2 \\
+ 1 & 2
+\end{array}
+\right]
+\left[
+\begin{array}{cc}
+x_1 \\
+x_2
+\end{array}
+\right] =
+\left[
+\begin{array}{cc}
+3 \\
+4
+\end{array}
+\right]
+\end{displaymath}
+
+The two lines defined by these equations are parallel; they have no point of
+intersection\footnote{This might be easier to see if you rearrange each equation into the form
+  $x_2 = m x_1 + b$}. Thus there is no point $(x_1, x_2)$ that can satisfy both equations at the
+same time. It also happens that the matrix of coefficients is singular. Now consider the system
+\begin{displaymath}
+\left[
+\begin{array}{cc}
+ 1 & 2 \\
+ 2 & 4
+\end{array}
+\right]
+\left[
+\begin{array}{cc}
+x_1 \\
+x_2
+\end{array}
+\right] =
+\left[
+\begin{array}{cc}
+1 \\
+2
+\end{array}
+\right]
+\end{displaymath}
+
+Here one equation is simply a scaled version of the other. As a result they are really the same
+equation. This system does not contain enough information to have a unique solution. In effect
+it has only one equation. Once again the matrix of coefficients is singular.
+
+Both of these examples have one thing in common. One row of the matrix of coefficients is a
+scaled version of another row. In the first example the scaling factor was $1$. In the second
+example the scaling factor was $2$. In the first example the values in the driving vector did
+not use the same scaling factor and the result was parallel lines. In the second example the
+values in the driving vector did use the same scaling factor and the result was two identical
+lines (which are also parallel, of course).
+
+% The paragraphs that follow contain quite a few new concepts. Those concepts should probably be
+% developed in sections of their own and not just thrown at the reader the way they are here. It
+% would also be a good idea to draw a few figures to help clarify these concepts.
+
+This observation can be generalized but it is necessary to first define a new concept. Suppose
+$u$ and $v$ are $n$ element row vectors. A \newterm{linear combination} of $u$ and $v$ is any
+vector, $w$ such that
+\begin{displaymath}
+w = a_1 u + a_2 v
+\end{displaymath}
+where $a_1$ and $a_2$ are any arbitrary scalars. In other words, I can express $w$ in terms of
+$u$ and $v$ by scaling each vector and adding the scaled results. Note that $a_1$ and $a_2$
+could be negative or zero. If $w$ is a linear combination of $u$ and $v$ then we say that $w$ is
+\newterm{linearly dependent} on $u$ and $v$. If you have a vector that can not be expressed as a
+linear combination of other vectors we say that it is \newterm{linearly independent} of those
+other vectors.
+
+Consider two vectors in a plane that don't point along the same line. There is no way I can
+scale one to get the other. Thus the two vectors are linearly independent. However, any other
+vector in that plane can be expressed as a linear combination of the first two vectors. Thus any
+other vector in that plane is linearly dependent of the first two. Consider the set of all
+vectors that can be written as a linear combination of the first two. That set of vectors
+constitutes a \newterm{vector space} and the first two, linearly independent vectors, form the
+\newterm{basis} of that space. They are said to \newterm{span} the space.
+
+For any particular vector space there are many different sets of basis vectors possible. Any two
+linearly independent vectors in a plane can be used as a basis for that plane. It is common in
+engineering and physics to use two orthagonal\footnote{perpendicular} vectors of length $1$ as a
+basis for the plane. However, it is perfectly possible, in general, to use two oblique vectors
+of arbitrary lengths as a basis as well.
+
+Now suppose that you introduce a third vector that points out of the plane spanned by the first
+two. There is no way to write this third vector as a linear combination of the others and so it
+is linearly independent of them. In fact, we can talk about the space spanned by the three
+vectors---the first two and this new one. That space has three dimensions. Hopefully you can see
+that the number of basis vectors required to span a space is equal to that space's
+dimensionality. In fact, this is the where the very concept of dimensionality comes from.
+
+Let's bring this back to the subject of simultaneous equations. Each equation in an $n \times n$
+system defines a $n-1$ dimension hyperplane. In particular, if you regard each equation as a row
+vector, the hyperplane that it describes is perpendicular to that vector and passes through the
+tip of that vector. If any of the hyperplanes are parallel there can be no solution to the
+system. Furthermore if the intersection of any combination of those hyperplanes is parallel to
+any of the remaining hyperplanes there can be no solution. This will occur if any row of the
+matrix of coefficients can be written as a linear combination of the other rows. In that case,
+the system contains insufficient information for a unique solution. The matrix of coefficients
+will be singular.
+
+The following is important.
+
+\begin{theorem}
+  Let $A$ be an $n \times n$ matrix. $A$ has an inverse if and only if $\det(A) \neq 0$.
+  Furthermore $A$ has an inverse if and only if the rows of $A$ are linearly independent.
+\end{theorem}
+
+% It would probably be nice to provide a proof of the above.
+
+Since $A$ needs to have an inverse in order to solve the matrix equation $Ax = b$, the theorem
+above is directly relevant to solving such systems. However, in general computing the $\det{A}$
+is expensive so a somewhat different approach that is more practical is usually taken.
+
+In a realistic computation the coefficients in the matrix of coefficients are not normally known
+to infinite precision. If they represent physical quantities they may only be accurate to two or
+three significant figures. Even if they coefficients are known to infinite precision, the
+computer used to calculate a solution has finite precision. Thus you would not expect the
+solution to be perfectly accurate.
+
+If the matrix of coefficients is close to being singular that means that the hyperplane
+described by one of its rows is nearly parallel to the intersection of the other hyperplanes. As
+a result, very slight variations in the coefficients will cause a very large change in the
+solution. Such a system is said to be \newterm{ill-conditioned}. In real calculations, exactly
+singular matrices don't exist. Singularity is a matter of degree and, due to practical limits of
+precision, one normally only sees systems with relatively more or less ill-conditioning.
+
+Since many naive formulations of real problems lead naturally to ill-conditioned systems, it is
+important to be aware of this issue and to check the conditioning of one's system before
+expending too many computational resources trying to solve it. Thus we can define a
+\newterm{condition number} of a matrix, $\kappa_\infty$, as a figure of merit that we can use to
+judge a system's degree of ill-conditioning.
+\begin{displaymath}
+  \kappa_\infty(A) = \norm{A}_\infty \cdot \norm{A^{-1}}_\infty
+\end{displaymath}
+
+In a perfectly conditioned case, all the hyperplanes described by the rows of the matrix are
+perpendicular. This occurs for the identity matrix and thus $\kappa_\infty(I_n) = 1$ is the
+ideal. For matrices where some of the hyperplanes are oblique $\kappa_\infty$ is greater than
+one and approaches infinity for the singular case.
+
+Note that you can compute the condition number of a matrix using a norm other than the
+$\infty$-norm. However, the general properties of the condition number remain the same. One
+reason why $\kappa_\infty$ is nice to use is because the $\infty$-norm of a matrix is easy to
+calculate (see Section~\ref{sec:matrix-norms}). Unfortunately a proper computation of
+$\kappa_\infty$ requires that the matrix be inverted. However, if the system is ill-conditioned,
+the inverse of $A$ can't be computed accurately. Indeed, the whole point of computing
+$\kappa_\infty$ is to know if $A^{-1}$, or an equivalent result, can be calculated with
+reasonable accuracy. Much has been written on how to estimate a system's condition number
+without computing the inverse of the matrix of coefficients and without spending too much time
+doing it. A full discussion of this matter is outside the scope of this short document.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item \emph{I need something here.}
+
+\end{enumerate}
+
+\subsection*{Octave}

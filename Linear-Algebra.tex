@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FILE         : Linear-Algebra.tex
+% AUTHOR       : (C) Copyright 2010 by Peter C. Chapin
+% SUBJECT      : Quick primer on the basics of linear algebra.
+%
+% To Do:
+%
+% + See the comments in the text for ideas about places where this document could be improved.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%+++++++++++++++++++++++++++++++++
+% Preamble and global declarations
+%+++++++++++++++++++++++++++++++++
+\documentclass{article}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.75ex plus0.5ex minus0.5ex}
+
+\usepackage{hyperref}
+
+% Useful commands to streamline my typing.
+\newcommand{\abs}[1]{|#1|}
+\newcommand{\norm}[1]{\|#1\|}
+
+\newtheorem{theorem}{Theorem}[section]
+
+%++++++++++++++++++++
+% The document itself
+%++++++++++++++++++++
+\begin{document}
+
+% Nice command for formatting new terms.
+\newcommand{\newterm}[1]{\emph{#1}}
+
+%-----------------------
+% Title page information
+%-----------------------
+\title{Linear Algebra}
+\author{Peter C. Chapin}
+\date{February 6, 2010}
+\maketitle
+
+\tableofcontents
+
+\section*{Legal}
+\label{sec:legal}
+
+\textit{Permission is granted to copy, distribute and/or modify this document under the terms of
+  the GNU Free Documentation License, Version 1.1 or any later version published by the Free
+  Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no
+  Back-Cover Texts. A copy of the license is included in the file \texttt{GFDL.txt} distributed
+  with the \LaTeX\ source of this document.}
+
+\section{Introduction}
+\label{sec:intro}
+
+This document is a quick primer on linear algebra. Its intended audience is senior computer
+engineering technology students at Vermont Technical College. This document assumes the reader
+has a reasonable mathematical background, largely calculus based, but no prior exposure to the
+topics of linear algebra at all.
+
+At the end of each major section below you will find some exercies that will encourage you to
+practice with the concepts presented in that section. In addition you will find some notes on
+how to use Octave to experiment with the topics of the section. Octave is an open source program
+that excels at doing matrix computations of various kinds (as well as many other mathematical
+things). It is similar to the commerical program MATLAB and even uses a largely compatible
+syntax. You may also be able to do a number of interesting matrix computations on your
+calculator. However, Octave will probably have greater capacity, higher performance, and more
+functionality than your calculator. Regardless of what your calculator can or can't do, I
+recommend that you spend some time getting familiar with Octave.
+
+\input{concept.tex}
+\input{operations.tex}
+\input{linear-transform.tex}
+\input{inverse.tex}
+\input{norms.tex}
+\input{equations.tex}
+\input{gaussian.tex}
+\input{eigen.tex}
+
+\end{document}

@@ -1,0 +1,154 @@
+
+\section{Matrix Norms}
+\label{sec:matrix-norms}
+
+Before I can discuss the norm of a matrix, I should first describe the norm of a vector. A
+vector's \newterm{norm} is a measure of the vector's length. For example, if the components of a
+vector $X$ are $x_1$, $x_2$, and $x_3$ the usual formula for the vector's length is $L(X) =
+\sqrt{x_1^2 + x_2^2 + x_3^2}$. This formula has the following ``length-like'' properties.
+
+\begin{enumerate}
+
+\item $L(X) \ge 0$, with $L(X) = 0$ if and only if $X = 0$.
+
+\item $L(X + Y) \le L(X) + L(Y)$.
+
+\item $L(\alpha X) = \abs{\alpha}\, L(X)$.
+
+\end{enumerate}
+
+The second property above is called the triangle inequality. It says that the length of the sum
+of two vectors is less than or equal to the sum of the two lengths. A simple diagram will make
+it obvious that this is true in the case of the traditional concept of length.
+
+The vector function $L(X)$ above satisfies the length-like properties but it is not the only
+function that does so. Any function that satisfies those properties (for all vectors) can be
+considered a ``length''. Such functions are norms. In fact, $L(X)$ above is actually one
+function in an entire class of functions called \newterm{p-norms}. The general form of a p-norm
+is
+\begin{displaymath}
+\norm{X}_p = (\abs{x_1}^p + \abs{x_2}^p + \cdots + \abs{x_n}^p)^{\frac{1}{p}},\; p \ge 1
+\end{displaymath}
+
+We use the symbol $\norm{X}_p$ to represent the p-norm of vector $X$. You can see that the
+traditional formula for the length of a vector is the 2-norm of the vector. In addition to the
+2-norm we will also be interested in the 1-norm and the $\infty$-norm. The $\infty$-norm is the
+result of a limiting process and is found from
+\begin{displaymath}
+\norm{X}_\infty = \max_{1 \le i \le n} \abs{x_i}
+\end{displaymath}
+That is the $\infty$-norm is simply the component of the vector with the largest absolute value.
+
+We can now extend these concepts to matrices. One way to do that would be to treat a $m \times
+n$ matrix as a vector with $mn$ components. One could then simply use a suitable vector norm as
+a matrix norm. It is easy to see that a matrix norm defined in this way will continue to have
+all the required properties provided that the underlying vector norm has those properties.
+
+However, since the product of two $n \times n$ matrices is again an $n \times n$ matrix, it
+turns out to be useful to add an additional constraint on the behavior of matrix norms. In
+particular, we will want $\norm{AB} \le \norm{A} \cdot \norm{B}$. With this condition in place
+the simple extension of vector norms to matrix norms does not work.
+
+However, one can define useful matrix norms in terms of vector norms anyway. In particular, let
+the norm of a matrix $A$ be
+\begin{displaymath}
+\norm{A} = \max_{\norm{u} = 1} \norm{Au}
+\end{displaymath}
+
+To understand what this means remember that a matrix, when multiplied by a vector, performs a
+linear transformation of that vector into another vector. In the above expression the vector $u$
+has a norm of 1 and is thus a \newterm{unit vector}. There are, in general, infinitely many unit
+vectors (depending on the norm used). For example, if one uses the 2-norm the unit vectors
+describe a sphere of radius 1 centered on the origin. The norm of a matrix is thus the norm of
+the ``largest'' vector produced by applying the matrix as a linear transformation to every
+possible unit vector. For example, if one used a 2-norm and applied the matrix to every point on
+the surface of a unit sphere, the norm of the matrix would be the distance from the origin to
+the most distant point on the resulting surface.
+
+It is important to note that any vector norm can be used to define a matrix norm in this way.
+Then when one speaks, for example, of the p-norm of a matrix one is talking about the matrix
+norm that results from using the corresponding p-norm of a vector. This method of defining a
+matrix norm may seem odd but it has a number of useful properties. For an $m \times n$ matrix
+\begin{eqnarray*}
+\norm{A}_1 & = & \max_{1 \le j \le n} \sum_{i = 1}^m \abs{a_{ij}} \\
+\norm{A}_\infty & = & \max_{1 \le j \le m} \sum_{j = 1}^n \abs{a_{ij}}
+\end{eqnarray*}
+
+In other words the 1-norm is the maximum of the sums of the columns, with the understanding that
+it is the sums of the absolute values of the elements that are done. Similarly the $\infty$-norm
+is the maximum of the sums of the rows, with the same understanding about taking the absolute
+values of the elements. For example, the matrix below shows the column sums below each column
+and the row sums beside each row.
+\begin{eqnarray*}   % I don't think I know what I'm doing here. There must be a better way.
+&
+\left[
+\begin{array}{rrr}
+ 1.23 & -3.42 &  0.89 \\
+-4.48 &  4.56 &  6.22 \\
+ 5.19 &  3.95 & -2.88
+\end{array}
+    \right] &
+\left.
+\begin{array}{rr}
+\rightarrow &  5.54 \\
+\rightarrow & 15.26 \\
+\rightarrow & 12.02
+\end{array}
+\right.\\
+&
+\begin{array}{rrr}
+\downarrow & \downarrow & \downarrow \\
+10.90 & 11.93 & 9.99
+\end{array} &
+\end{eqnarray*}
+
+Thus the 1-norm of the matrix above is 11.93 and the $\infty$-norm of the matrix is 15.26.
+Notice that if a single element in the matrix was much larger than any of the others, it would
+dominate its column sum and its row sum. That element would become, in effect, both the 1-norm
+and the $\infty$-norm.
+
+It is important to realize that both the 1-norm and the $\infty$-norm of a matrix can be
+calculated in $\Theta(n^2)$ time. As you will see in Section~\ref{sec:simul-equations}, this is
+more efficient than what is required to invert a general matrix. This observation is important
+during the solution of simultaneous equations.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item \label{exer:compute-vnorm} Calculate the 1-norm, 2-norm, 3-norm, and $\infty$-norm of the
+  following vectors
+
+\begin{enumerate}
+  \item $(1.27, -3.12, 4.84)$
+  \item $(3.44, -2.19, 15.32)$
+  \item $(0.00, 0.00, 0.00)$
+\end{enumerate}
+
+\item Prove that for any vector $X$, $\norm{X}_\infty \le \norm{X}_p$ for all finite $p$. Prove
+  that if $q > p$, then $\norm{X}_q \le \norm{X}_p$.
+
+\item \label{exer:compute-mnorm} Calculate the 1-norm and $\infty$-norm of the following matrix.
+\begin{displaymath}
+\left[
+\begin{array}{rrrr}
+6.28 & -12.31 &   4.22 &  1.33 \\
+4.89 &  -2.23 &   6.69 & -3.44 \\
+8.32 &   2.41 & -10.34 &  9.83 \\
+0.48 &  -0.48 & -18.40 &  4.44
+\end{array}
+\right]
+\end{displaymath}
+
+\item \label{exer:transpose-norm} How do the p-norms of the transpose of a matrix relate to the
+  p-norms of the original matrix?
+
+\end{enumerate}
+
+\subsection*{Octave}
+
+Octave has a built in \texttt{norm} function that can be used to compute the norm of a vector or
+of a matrix. Read about it in Octave's online help. Use that function to check your answers in
+Exercise~\ref{exer:compute-vnorm} and Exercise~\ref{exer:compute-mnorm} above. Use Octave to
+compute the norms of several matrices and their transposes and see if you can verify your
+findings in Exercise~\ref{exer:transpose-norm}.

@@ -1,0 +1,175 @@
+
+\section{Matrix Operations}
+\label{sec:matrix-operations}
+
+Various operations have been defined for matrices so that they may be manipulated as a single
+unit. In this section I will review some of those basic operations. Please read this section
+carefully. Understanding this material is essential for understanding the later material.
+
+Two matrices can be added if they have the same dimensions. If the dimensions are different the
+addition of the matrices is undefined. To add two compatible matrices one simply adds
+corresponding elements. Thus addition is very natural. For example
+
+\begin{displaymath}
+\left[
+\begin{array}{cc}
+  a_{11} & a_{12} \\
+  a_{21} & a_{22}
+\end{array}
+\right] +
+\left[
+\begin{array}{cc}
+  b_{11} & b_{12} \\
+  b_{21} & b_{22}
+\end{array}
+\right] =
+\left[
+\begin{array}{cc}
+  a_{11} + b_{11} & a_{12} + b_{12} \\
+  a_{21} + b_{21} & a_{22} + b_{22}
+\end{array}
+\right]
+\end{displaymath}
+
+To multiply a matrix by a scalar, simply multiple each element in the matrix by that scalar.
+This is also very natural. For example
+
+\begin{displaymath}
+a \left[
+\begin{array}{cc}
+  b_{11} & b_{12} \\
+  b_{21} & b_{22}
+\end{array}
+\right] =
+\left[
+\begin{array}{cc}
+  a b_{11} & a b_{12} \\
+  a b_{21} & a b_{22}
+\end{array}
+\right]
+\end{displaymath}
+
+Matrix subtraction follows from the above two operations. If $A$ and $B$ are matrices then $A -
+B$ can be regarded as $A + (-1)B$. Thus matrix subtraction is also done on an element by element
+basis in a natural way.
+
+Because matrix addition is defined as element by element addition it should be fairly clear that
+matrix addition obeys the same laws of commutivity and associativity as ordinary addition. That
+is, if $A$, $B$, and $C$ are matrices then $A + B = B + A$ and $(A + B) + C = A + (B + C)$. This
+assumes that all the matrices involved have the same dimensions so that the addition operations
+are properly defined.
+
+Matrix multiplication, on the other hand, is defined in a way that might seem rather
+counter-intuitive at first. However, as you will see later, it actually provides a very useful
+operation. Let the matrices to be multipled be called $A$ and $B$. Let $C = AB$ be the product
+matrix. Let $A$ have the dimensions $m \times n$ and $B$ have the dimensions $n \times p$. For
+the multiplication to be defined the two inner dimensions must agree. The dimension of $C$ is
+then given by the two outer dimensions. In this case that would be $m \times p$. For example you
+could multiple a $3 \times 2$ matrix with a $2 \times 5$ matrix. The result would be a $3 \times
+5$ matrix.
+
+To compute an element in the result matrix, say $c_{ij}$, you would run down row $i$ of $A$ and
+column $j$ of $B$. Because of the rules described above, there would be $n$ columns in $A$ and
+$n$ rows in $B$ so the number of items in each run would be the same. You calculate $c_{ij}$ as
+follows
+
+\begin{displaymath}
+c_{ij} = \sum_{k = 1}^{n} a_{ik} b_{kj}
+\end{displaymath}
+
+The computation is, essentially the vector dot product of the $i^{\mathrm{th}}$ row vector of
+matrix $A$ and the $j^{\mathrm{th}}$ column vector of matrix $B$. Of course you would have to
+repeat this calculation, using different rows and columns in $A$ and $B$ respectively, for each
+element in the result matrix.
+
+As an example consider the following product of a $3 \times 2$ matrix with a $2 \times 3$
+matrix.
+
+\begin{displaymath}
+\left[
+\begin{array}{rr}
+ 1  &  2 \\
+ 4  & -1 \\
+-3  &  3
+\end{array}
+\right] \times
+\left[
+\begin{array}{rrr}
+-2 & 3 & 1 \\
+ 5 & 2 & 5
+\end{array}
+\right] =
+\left[
+\begin{array}{rrr}
+   8 &  7 & 11 \\
+ -13 & 10 & -1 \\
+  21 & -3 & 12 
+\end{array}
+\right]
+\end{displaymath}
+
+For example $c_{11} = a_{11}b_{11} + a_{12}b_{21} = (1)(-2) + (2)(5) = 8$. The other elements of
+the result matrix are calculated similarly. You should verify them to be sure you understand how
+matrix multiplication works. Notice also that in this case the result matrix is larger than
+either of the matrices being multiplied together. This is a consequence of dimensioning rules.
+It won't always be like that, however. For example a $2 \times 6$ matrix being multiplied with a
+$6 \times 2$ matrix will result in a smaller $2 \times 2$ matrix. In the special case where all
+the matrices involved are square the dimensions will stay the same during the multiplication.
+
+Matrix multiplication is not commutative. For one thing reversing the order of the matrices
+might cause the multiplication to be undefined due to incompatible dimensions. Even if the
+multiplication is defined the result matrix might not be the same size. For example, reversing
+the order of the matrices in the last example will produce a $2 \times 2$ result, not a $3
+\times 3$ result. Even if the result matrices are the same size (both $A$ and $B$ are square),
+the results will not, in general, be the same. It is easy to find two square matrices that don't
+commute when multiplied. Most pairs don't.
+
+Matrix multiplication does, however, associate. That is if $A$, $B$, and $C$ are matrices $(AB)C
+= A(BC)$. As a consequence of this the parenthesis are not necessary when writing the product of
+several matrices. It also means that something like $A^3$ is well defined. In particular, $A^3 =
+AAA = (AA)A = A(AA)$. Notice that only square matrices can be raised to powers (do you see
+why?).
+
+At this point you might be wondering about the definition of matrix division. It turns out that
+the problem of dividing matrices is fraught with subtle complications. In fact we do not define
+it at all in the usual sense. Instead we talk about matrix inverses. However, that is a topic
+that deserves its own section.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item Demonstrate that matrix multiplication, even of square matrices, is not in general
+  commutative.
+
+\item Prove that matrix multiplication is associative.
+
+\item Does matrix multiplication distribute over matrix addition? That is, if $A$, $B$, and $C$
+  are matrices does $A(B + C) = AB + AC$? If so, then prove it. If not, then find a counter
+  example using Octave (see below). Repeat the question for $(B + C)A = BA + CA$.
+
+\end{enumerate}
+
+\subsection*{Octave}
+
+Once matrices are defined in Octave you can add, subtract, and multiply them with the obvious
+expressions. Octave will print the results of each expression as you enter it (you can supress
+such printing by ending your command with a semicolon). Use Octave to demonstrate the
+commutativity and associativity (or lack thereof) of matrix addition and matrix multiplication.
+Use Octave to support your answer to the distribution question above. Either find suitable
+counter examples or demonstrate that distribution does work.
+
+Keep in mind that numerical experiments of the sort you can do in Octave can prove that a
+certain property does not hold in all cases by finding a single counter example. You do not need
+to try every matrix in existence. However, Octave can not prove that a certain property does
+hold in all cases since it can't test every possible case. One must rely on the standard
+techniques of mathematical proof to verify that a property is true in all cases.
+
+More specifically, you can use Octave to prove that matrix multiplication does not commute by
+finding two matrices that don't commute. However, you can't prove that matrix multiplication is
+associative without computing $A(BC)$ and $(AB)C$ for every possible $A$, $B$, and $C$. That
+would require an infinite amount of computation since there are infinitely many matrices.
+However, you can \emph{demonstrate} the association of matrix multiplication in Octave by
+computing $A(BC)$ and $(AB)C$ for some particular $A$, $B$, and $C$ and then showing that the
+results are the same. Such a demonstration does not constitute a proof of the general case but
+it is interesting anyway.

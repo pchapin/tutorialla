@@ -1,0 +1,92 @@
+
+\section{Matrix Inverses}
+\label{sec:matrix-inverses}
+
+In order to talk about the inverse of a matrix I should first talk about the concept of
+identities. Consider ordinary multiplication. There exists a number, namely $1$, that has the
+property $x \times 1 = 1 \times x = x$. Thus $1$ is called the \newterm{multiplicative identity}
+because when you multiply any number by $1$ the result is the same. It turns out that there is a
+\newterm{identity matrix} as well. Actually there are infinitely many identity matrices of
+different sizes. The general form is
+\begin{displaymath}
+I_n = \left[
+\begin{array}{cccc}
+ 1 & 0 & \cdots & 0 \\
+ 0 & 1 & \cdots & 0 \\
+ \vdots & \vdots & \ddots & \vdots \\
+ 0 & 0 & \cdots & 1
+\end{array}
+\right]
+\end{displaymath}
+
+That is, $I_n$ is an $n \times n$ square matrix that has ones down the diagonal and zeros
+everywhere else. It is relatively easy to see that $IA = A$ for any matrix $A$ (just try
+multiple out an example and you will quickly see how it works). Note that $A$ need not be
+square. As long as you use the proper sized identity matrix so that the multiplication is
+defined the result of $IA$ will be $A$ again.
+
+The identity matrix is also special because, unlike the general case, multiplication by the
+identity martix commutes. That is $IA = AI = A$. This assumes that $A$ is square. Otherwise one
+must use different sized identities depending on if the identity is being pre-multiplied or
+post-multiplied.
+
+Another property of real numbers is that every number except zero has a \newterm{multiplicative
+  inverse}. For example $x$'s inverse, symbolized as $x^{-1}$ is such that $xx^{-1} = x^{-1}x =
+1$. Similarly many matrices have inverses as well. For example $A$'s inverse, symobolized as
+$A^{-1}$ is such that $AA^{-1} = A^{-1}A = I$. Here I restrict myself to square matrices. In
+that case notice how multiplication by the inverse commutes; again contrary to the general case
+for matrix multiplication.
+
+% It might be useful to prove some of these properties.
+
+With real numbers we can define division in terms of multiplication by an inverse. Specifically
+we can define $a/b$ as $ab^{-1}$ or as $b^{-1}a$. Here I'm taking advantage of the fact that
+multiplication of real numbers commutes in every case. Similarly in situations where one is
+tempted to divide by a matrix we normally talk instead about multiplying by the inverse of the
+matrix instead. Because matrix multiplication is not commutative we have the added complication,
+in the algebra of matrices, of having to carefully track pre-multiplications as opposed to
+post-multiplications. An example of this will be shown in the next section.
+
+Computing the inverse of a matrix is a non-trivial problem. I will discuss this more in a later
+version of this document.
+
+% Not all matrices have inverses. Some matrices are singular. Define and discuss this. It might
+% also be necessary to talk about the det() operation and how it relates to the existence of an
+% inverse.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item Consider the following $n \times n$ matrix.
+\begin{displaymath}
+A = \left[
+\begin{array}{cccc}
+  a_{11} & 0 & \cdots & 0 \\
+  0 & a_{22} & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & a_{nn}
+\end{array}
+    \right]
+\end{displaymath}
+This matrix has non-zero elements only on its main diagonal. What is its inverse?
+
+\end{enumerate}
+
+\subsection*{Octave}
+
+You can use the \texttt{eye()} function in Octave to generate an identity matrix of any size.
+For example \texttt{eye(3)} returns a $3 \times 3$ identity. You can also use the \texttt{inv()}
+function to compute the inverse of a matrix. For example
+
+\begin{verbatim}
+octave:1> A = [ 1 2 4; -4 2 1; 9 -2 1 ];
+octave:2> B = inv(A)
+\end{verbatim}
+
+Verify that the result of \texttt{inv()} is a proper inverse by computing $A*B$ and $B*A$ and
+showing that both result in the identity matrix. You may notice that the results shows slight
+round off errors in the computations (mostly identified by the existence of negative zeros in
+the result). This is normal.
+
+What does Octave do when asked to find the inverse of the singular matrix in the example above?

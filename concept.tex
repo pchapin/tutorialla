@@ -1,0 +1,168 @@
+
+\section{The Concept of a Matrix}
+\label{sec:matrix-concept}
+
+A \newterm{matrix} is, essentially, a rectangular array of numbers. It is the basic ``data
+type'' used in linear algebra. The individual numbers in a matrix, usually called the
+\newterm{elements}, can be drawn from any of the usual sets. In many applications the matrix
+elements are real numbers but in some cases they might be complex numbers, integers, or rational
+numbers. We speak of real matrices, complex matrices, and so forth according to the type of the
+matrix elements.
+
+The dimensions of a matrix are usually given in the form $m \times n$ where $m$ is the number of
+rows and $n$ is the number of columns. The row dimension is always given first. If $n = m$ then
+the matrix is said, for obvious reasons, to be square. Here is an example of how a $2 \times 3$
+matrix named $A$ might be displayed.
+
+\begin{displaymath}
+A = \left[
+\begin{array}{ccc}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23}
+\end{array}
+    \right]
+\end{displaymath}
+
+Each element is given two subscripts to indicate its position in the matrix. The first subscript
+is the row number, ranging from $1\ldots m$, and the second subscript is the column number,
+ranging from $1\ldots n$. Typically when one wants to refer to a generic element of matrix one
+would use variables such as $i$, $j$, or $k$ to be placeholders for the indices. For example, a
+typical element of matrix $A$ might be written as $a_{ij}$. As a computer programmer you should
+be able to relate this notation to the index variables used in typical loops. For example, in C
+\begin{verbatim}
+double A[2][3];
+
+for (int i = 0; i < 2; i++) {
+  for (int j = 0; j < 3; j++) {
+    A[i][j] = ... ;
+  }
+}
+\end{verbatim}
+
+Notice that in the mathematical notation it is traditional to regard the matrix subscripts as
+starting at one and not zero. Also in the mathematical notation it is traditional to use
+uppercase letters to represent the entire matrix and lowercase letters to represent individual
+matrix elements.
+
+Matrices with only one row, that is $1 \times n$ matrices, are often called \newterm{row
+  vectors}. In many cases the row subscript is dropped, since it is always $1$, when talking
+about the elements of a row vector. Similarly matrices with only one column are often called
+\newterm{column vectors}. In that case the column subscript is often dropped when talking about
+the elements of a column vector. Row vectors and column vectors are essentially ordinary arrays
+in a programming sense. In the mathematics of linear algebra they are basically treated like any
+other matrix although their unusual dimensions give them somewhat special properties.
+
+You might have noticed that in the notation above I did not put any punctuation between the two
+subscripts in, for example, $a_{12}$. This might cause you to wonder what happens if one or both
+of the subscripts exceeds $9$. In general this is not a significant concern. In the mathematical
+development one rarely uses specific numbers other than $1$ or $2$ anyway. For example, I might
+show a general $m \times n$ matrix as follows
+
+\begin{displaymath}
+A = \left[
+\begin{array}{cccc}
+  a_{11} & a_{12} & \cdots & a_{1n} \\
+  a_{21} & a_{22} & \cdots & a_{2n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{array}
+    \right]
+\end{displaymath}
+
+In the discussion about this matrix I might talk about element $a_{ij}$ and how, for example, it
+relates to $a_{ii}$ or $a_{mj}$ or even $a_{i+1,j-1}$. However, it would be extremely rare for
+me to talk about a specific element such as $a_{3982}$ so the ambiguity about what $3982$ means
+in this case would not be an issue.
+
+Keep in mind also that many of the applications of linear algebra involve the use of very large
+matrices. While the examples in this document and most text books are small so that they can be
+worked by hand, in the real world matrices with dimensions of many thousands of rows and columns
+are commonplace. The theory, of course, has no special problems with such large matrices but
+doing computations efficiently on them can be a serious concern. Much has been written about
+that subject but it is outside the scope of this document.
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item \emph{I need something here.}
+
+\end{enumerate}
+
+\subsection*{Octave}
+
+I will assume here that you will be using the open source program Octave for your computer
+experiments. However, if you have access to MATLAB you should find that all of the commands I
+talk about here will also work for you. The two programs have a substantial degree of
+compatibility, particularly in the area of basic commands.
+
+When you start Octave you will get a prompt that might look something like
+
+\begin{verbatim}
+octave:1>
+\end{verbatim}
+
+The number (shown as ``1'' above) is the command number. It increments after each command
+although in this document I will typically show it always as ``1.'' You can use octave as a
+simple calculator, just type in expressions for it to evaluate. For example
+
+\begin{verbatim}
+octave:1> 2 + 10 / 5
+ans = 4
+octave:2>
+\end{verbatim}
+
+Octave stores the result of the evaluation into a special variable named \texttt{ans} that it
+displays on the next line. After displaying the answer it then prints a new prompt. You can
+store the result of an expression into a named variable using the obvious syntax.
+
+\begin{verbatim}
+octave:1> x = 2 + 10 / 5
+x = 4
+\end{verbatim}
+
+The beauty of Octave is that it allows you to manupulate matrices in a natural way. To enter a
+matrix use square brackets.
+
+\begin{verbatim}
+octave:1> A = [ 1 2 3; 4 5 6; 7 8 9 ]
+A =
+
+  1   2   3
+  4   5   6
+  7   8   9
+\end{verbatim}
+
+Octave allows a fairly flexible input syntax. You can separate matrix elements with white space
+alone or with commas at your option. The semicolons are used to delimit one row from another.
+However, you could have also entered the matrix on multiple lines using the RETURN key at the
+end of each row in a natural way.
+
+Once a matrix has been entered you can access an individual element using parenthesis. For
+example \texttt{A(1,3)} prints out the value of $a_{13}$. You can also modify a particular
+matrix element.
+
+\begin{verbatim}
+octave:2> A(1,3) = 10
+A =
+
+  1   2  10
+  4   5   6
+  7   8   9
+\end{verbatim}
+
+Notice that when a matrix element is modified, Octave redisplays the entire matrix.
+
+There are some quirks with Octave to keep in mind as you use it. First, as is mathematically
+traditional, element indices are numbered starting at $1$, not $0$ as a C programmer might
+expect. Also Octave uses parenthesis instead of square brackets when accessing an individual
+element. These things are consistent with Fortran's syntax and are considered natural among
+numerical specialists who use Fortran. Also be aware that Octave uses a floating point type
+internally to hold all scalars. This is typically what you want but it means that its integer
+calculations are somewhat of an illusion. Be careful.
+
+You should take Octave for a test drive. Try entering in a few matrices and accessing their
+elements. Although I didn't discuss it here, experiment with Octave's slice notation. For
+example, using the matrix $A$ entered above, try executing the command \texttt{A(2:3, 2)}. Can
+you explain what happens? Verify your explaination by trying some other possibilities. Also try
+\texttt{A(:, 2)} as well.
